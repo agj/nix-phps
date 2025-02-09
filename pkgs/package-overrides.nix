@@ -515,7 +515,13 @@ in
           configureFlags = [ "--with-mcrypt=${pkgs.libmcrypt.outPath}" ];
         }
       else
-        throw "php.extensions.mcrypt requires PHP version < 7.0.";
+        prev.buildPecl {
+          pname = "mcrypt";
+          version = "1.0.7";
+          hash = "sha256-Euovu/Li7755ChISH3e/CWyLhM74HQIWvsANVuW63vQ=";
+          buildInputs = [ pkgs.libmcrypt ];
+          configureFlags = [ "--with-mcrypt=${pkgs.libmcrypt}" ];
+        };
 
     memcached =
       if lib.versionOlder prev.php.version "7.0" then
