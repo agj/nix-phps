@@ -521,6 +521,9 @@ in
           hash = "sha256-Euovu/Li7755ChISH3e/CWyLhM74HQIWvsANVuW63vQ=";
           buildInputs = [ pkgs.libmcrypt ];
           configureFlags = [ "--with-mcrypt=${pkgs.libmcrypt}" ];
+          env = pkgs.buildEnv {
+            NIX_CFLAGS_COMPILE = lib.optionalString (lib.versionOlder prev.php.version "7.4") "-Wno-incompatible-${lib.optionalString isClang "function-"}pointer-types";
+          };
         };
 
     memcached =
